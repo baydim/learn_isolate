@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:isolate';
 
 import 'package:flutter/material.dart';
@@ -11,17 +12,17 @@ class HomeController extends GetxController {
       return 1;
     } else {
       int result = slowFib(n - 1) + slowFib(n - 2);
-      print('n: $n, result: $result');
+      // Print only within the main isolate (optional)
+      if (Platform.isAndroid || Platform.isIOS) {
+        print('n: $n, result: $result');
+      }
       return result;
     }
   }
 
   funcIsolate() async {
-    await Isolate.run(() {
-      return slowFib(
-        int.tryParse(textController.value.text) ?? 1,
-      );
-    });
+    final value = int.tryParse(textController.value.text) ?? 1;
+    await Isolate.run((() => slowFib(value))); // Pass only the value
   }
 
   funcNoIsolate() async {
@@ -29,4 +30,6 @@ class HomeController extends GetxController {
       int.tryParse(textController.value.text) ?? 1,
     );
   }
+
+  // ... other methods
 }
