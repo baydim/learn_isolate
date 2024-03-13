@@ -3,33 +3,56 @@ import 'dart:isolate';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
 
 class HomeController extends GetxController {
   var textController = TextEditingController(text: "10").obs;
-
-  int slowFib(int n) {
-    if (n <= 1) {
-      return 1;
-    } else {
-      int result = slowFib(n - 1) + slowFib(n - 2);
-      // Print only within the main isolate (optional)
-      if (Platform.isAndroid || Platform.isIOS) {
-        print('n: $n, result: $result');
-      }
-      return result;
-    }
-  }
-
+  var result = 0.obs;
   funcIsolate() async {
-    final value = int.tryParse(textController.value.text) ?? 1;
-    await Isolate.run((() => slowFib(value))); // Pass only the value
+    var response = await IsolatesApp.funcIsolate(
+        int.tryParse(textController.value.text) ?? 1);
+    result.value = response;
   }
 
   funcNoIsolate() async {
-    slowFib(
+    result.value = slowFib(
       int.tryParse(textController.value.text) ?? 1,
     );
   }
 
-  // ... other methods
+  @override
+  void onInit() {
+    super.onInit();
+  }
+
+  @override
+  void onClose() {
+    textController.close();
+    Isolate.current.kill();
+    super.onClose();
+  }
+}
+
+class IsolatesApp {
+  static Future<int> funcIsolate(int n) async {
+    final value = n;
+    var response =
+        await Isolate.run((() => slowFib(value))); // Pass only the value
+    print(response);
+
+    return response;
+  }
+}
+
+int slowFib(int n) {
+  if (n <= 1) {
+    return 1;
+  } else {
+    int result = slowFib(n - 1) + slowFib(n - 2);
+    // Print only within the main isolate (optional)
+    if (Platform.isAndroid || Platform.isIOS) {
+      print('n: $n, result: $result');
+    }
+    return result;
+  }
 }

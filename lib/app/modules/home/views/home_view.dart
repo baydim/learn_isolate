@@ -27,12 +27,12 @@ class HomeView extends GetView<HomeController> {
                 LinearProgressIndicator(),
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             TextFormField(
               controller: controller.textController.value,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 hintText: "Value Int",
                 labelText: "Value Int",
               ),
@@ -41,7 +41,13 @@ class HomeView extends GetView<HomeController> {
                 FilteringTextInputFormatter.digitsOnly, // Allow only digits
               ],
             ),
-            SizedBox(
+            const SizedBox(
+              height: 10,
+            ),
+            Text(
+              "Result : " + controller.result.toString(),
+            ),
+            const SizedBox(
               height: 20,
             ),
             ElevatedButton(
@@ -50,7 +56,7 @@ class HomeView extends GetView<HomeController> {
               },
               child: const Text("No isolate"),
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             ElevatedButton(
