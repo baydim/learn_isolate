@@ -3,7 +3,6 @@ import 'dart:isolate';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
 
 class HomeController extends GetxController {
   var textController = TextEditingController(text: "10").obs;
