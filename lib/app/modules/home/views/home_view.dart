@@ -45,7 +45,7 @@ class HomeView extends GetView<HomeController> {
               height: 10,
             ),
             Text(
-              "Result : " + controller.result.toString(),
+              "Result : ${controller.result}",
             ),
             const SizedBox(
               height: 20,
