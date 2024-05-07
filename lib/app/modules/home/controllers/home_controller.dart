@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'dart:io';
 import 'dart:isolate';
 
@@ -18,7 +20,6 @@ class HomeController extends GetxController {
       int.tryParse(textController.value.text) ?? 1,
     );
   }
-
 
   @override
   void onClose() {
